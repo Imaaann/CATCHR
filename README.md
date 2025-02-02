@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CATCHR
 
-## Getting Started
+## Rhythm game where you catch the beats
 
-First, run the development server:
+CATCHR is a web based rhythm game made with NextJS and using the Canvas API where you play as a little white blob tasked to catch
+all the beats from normal hit-circles, sliders, and avoiding mines. CATCHR also spices things up with mode changes in the middle of a level with the **reverse** and the **double** modes. CATCHR also offers a variety of levels and difficulties for all skill levels
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### CATCHR Gameplay
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> W.I.P
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### How to run CATCHR
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+You can play CATCHR live by clicking this [link](https://www.example.com)
+Or you can host it locally by cloning this repository and running `yarn dev` or `npm run dev`
 
-## Learn More
+### Contribute to CATCHR
 
-To learn more about Next.js, take a look at the following resources:
+If you want to contribute to CATCHR by mapping new levels I would suggest reading the documentation related to the game generator classes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Keep the levels in the same format as previous ones
+- Don't make impossible levels
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+If you want to contribute to CATCHR by helping out in developement then I encourage you to just keep your PR's clear and short
 
-## Deploy on Vercel
+### Known Issues
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> Will be added when we find them :D
