@@ -5,7 +5,7 @@ import HeroTriangle from "../svg/HeroTriangle";
 
 function DesktopHero() {
   return (
-    <div className="relative pointer-events-auto">
+    <div className="relative pointer-events-auto ">
       <div className="flex justify-between items-center px-5 font-hoover text-white text-md min-w-64 absolute right-0 top-4">
         <Link href="https://github.com/Imaaann/CATCHR" className="p-1">
           Github
@@ -32,7 +32,7 @@ function DesktopHero() {
             <br />
             the Flow!
           </p>
-          <button className="bg-white bg-opacity-5 hover:bg-opacity-10 shadow-white-Glow px-12 border-solid border-white border-opacity-10  rounded-md border text-3xl mt-3 text-left max-w-fit">
+          <button className="bg-white bg-opacity-5 hover:bg-opacity-10 shadow-white-Glow px-12 border-solid border-white border-opacity-10  rounded-md border text-3xl mt-8 text-left max-w-fit">
             GO
           </button>
         </div>

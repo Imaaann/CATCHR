@@ -38,18 +38,29 @@ function sliderShow() {
   );
 }
 
-function BeatCard({ type }: { type: beatTypes }) {
+function BeatCard({ type, size = "base" }: { type: beatTypes; size?: string }) {
   const showCaseMap = {
-    Normal: hitCircle({ size: 70 }),
+    Normal: hitCircle({ size: 95 }),
     Slider: sliderShow(),
     Mine: hitMine(),
     Reverse: hitReverse(),
     Double: hitDouble(),
   };
 
+  const showCaseTitle = {
+    Normal: "Catch it, Quickly!",
+    Slider: "Follow the dots, or else...",
+    Mine: "You can try catching this one",
+    Reverse: "You cant escape me, ill reverse your inputs",
+    Double: "Would you like a helping hand",
+  };
+
   return (
-    <div className="min-h-40 min-w-40 flex flex-col justify-center items-center p-2 bg-[#171717] bg-opacity-5 rounded-md shadow-faint-Glow gap-4">
-      <span className="self-start ">{type}</span>
+    <div
+      title={showCaseTitle[type]}
+      className="min-h-40 min-w-40 flex flex-col justify-center items-center p-2 bg-[#171717] bg-opacity-5 rounded-md shadow-faint-Glow gap-4"
+    >
+      <span className={"self-start" + " text-" + size}>{type}</span>
       <div>{showCaseMap[type]}</div>
     </div>
   );

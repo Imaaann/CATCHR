@@ -1,6 +1,6 @@
 function sliderShow() {
   return (
-    <svg width="80" height="80" viewBox="0 0 79 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="95" height="95" viewBox="0 0 79 88" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M30 58.5C30 59.3284 29.3284 60 28.5 60C27.6716 60 27 59.3284 27 58.5C27 57.6716 27.6716 57 28.5 57C29.3284 57 30 57.6716 30 58.5Z"
         fill="white"
