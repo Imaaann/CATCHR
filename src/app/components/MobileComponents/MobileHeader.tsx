@@ -13,13 +13,15 @@ function MobileHeader() {
         <Link href="https://github.com/Imaaann/CATCHR" className="p-1">
           Github
         </Link>
-        <Image
-          src={github_pfp}
-          height={30}
-          width={30}
-          alt="The game creator profile"
-          className="circle rounded-full"
-        />
+        <Link href="https://github.com/Imaaann">
+          <Image
+            src={github_pfp}
+            height={30}
+            width={30}
+            alt="The game creator profile"
+            className="circle rounded-full cursor-pointer"
+          />
+        </Link>
       </div>
     </div>
   );
