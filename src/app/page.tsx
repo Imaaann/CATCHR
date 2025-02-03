@@ -1,9 +1,9 @@
-import PrimaryLogo from "./components/PrimaryLogo";
+import MobileLanding from "./components/MobileComponents/MobileLanding";
 
 export default function Home() {
   return (
-    <div className="font-hoover text-3xl bg-black">
-      <PrimaryLogo size={36} />
+    <div className="overflow-auto scrollbar-none">
+      <MobileLanding />
     </div>
   );
 }

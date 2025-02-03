@@ -17,7 +17,7 @@ const customFont = localFont({
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={customFont.variable}>
-      <body>{children}</body>
+      <body className="bg-[#0B0C0E] ">{children}</body>
     </html>
   );
 }

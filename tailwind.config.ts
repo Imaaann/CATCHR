@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import tailwindScrollbar from "tailwind-scrollbar";
 
 export default {
   content: [
@@ -11,7 +12,11 @@ export default {
       fontFamily: {
         hoover: "var(--hoover-font), sans serif",
       },
+      boxShadow: {
+        "white-Glow": "0px 4px 40px 0px rgba(128, 128, 128, 0.25);",
+        "faint-Glow": "0px 4px 20px 0px rgba(128, 128, 128, 0.25);",
+      },
     },
   },
-  plugins: [],
+  plugins: [tailwindScrollbar({ nocompatible: true })],
 } satisfies Config;
