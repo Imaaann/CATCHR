@@ -27,7 +27,7 @@ function LevelCard({ id }: { id: number }) {
 
   return (
     <div className="w-72 h-72 bg-white bg-opacity-[1%] flex flex-col shadow-faint-Glow text-white font-hoover p-3 gap-3 rounded-lg">
-      <span className="text-2xl">{level.title}</span>
+      <span className="text-2xl ">{level.title}</span>
       <Image
         height={100}
         width={100}
@@ -35,7 +35,7 @@ function LevelCard({ id }: { id: number }) {
         alt={`Image of the CATCHR level ${level.title}`}
         className="self-center"
       />
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <div className="flex flex-col gap-2">
           <span>High</span>
           <span>0000000</span>

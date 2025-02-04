@@ -16,7 +16,7 @@ function DifficultyCard({ text }: { text: string }) {
 
   return (
     <div
-      className="flex flex-col items-center bg-white bg-opacity-0 hover:bg-opacity-5 justify-center rounded-full border py-1 px-4 cursor-pointer "
+      className="flex flex-col items-center bg-white bg-opacity-0 hover:bg-opacity-5 justify-center rounded-full border py-2 px-4 cursor-pointer "
       style={{ borderColor: color, color: color }}
     >
       {text}
