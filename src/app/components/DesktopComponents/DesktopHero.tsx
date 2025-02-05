@@ -32,9 +32,11 @@ function DesktopHero() {
             <br />
             the Flow!
           </p>
-          <button className="bg-white bg-opacity-5 hover:bg-opacity-10 shadow-white-Glow px-12 border-solid border-white border-opacity-10  rounded-md border text-3xl mt-8 text-left max-w-fit">
-            GO
-          </button>
+          <Link href="/Levels">
+            <button className="bg-white bg-opacity-5 hover:bg-opacity-10 shadow-white-Glow px-12 border-solid border-white border-opacity-10  rounded-md border text-3xl mt-8 text-left max-w-fit">
+              GO
+            </button>
+          </Link>
         </div>
         <HeroTriangle />
       </div>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import CATCHRio from "../CATCHRio";
 
 function MobileHero() {
@@ -9,9 +10,11 @@ function MobileHero() {
         <br />
         the Flow!
       </p>
-      <button className="bg-white bg-opacity-5 hover:bg-opacity-10 shadow-white-Glow px-6 border-solid border-white border-opacity-10  rounded-md border text-3xl mt-3">
-        GO
-      </button>
+      <Link href="/Levels">
+        <button className="bg-white bg-opacity-5 hover:bg-opacity-10 shadow-white-Glow px-6 border-solid border-white border-opacity-10  rounded-md border text-3xl mt-3">
+          GO
+        </button>
+      </Link>
       <div className="absolute rotate-[-35deg] bottom-[-1] right-6 overflow-hidden">
         <CATCHRio size={150} />
       </div>
