@@ -1,5 +1,5 @@
-import DesktopLanding from "./components/DesktopComponents/DesktopLanding";
-import MobileLanding from "./components/MobileComponents/MobileLanding";
+import DesktopLanding from "../components/DesktopComponents/DesktopLanding";
+import MobileLanding from "../components/MobileComponents/MobileLanding";
 
 export default function Home() {
   return (

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import PrimaryLogo from "../PrimaryLogo";
-import github_pfp from "../../../../public/images/Github-Pfp.png";
+import github_pfp from "@/../public/images/Github-Pfp.png";
 
 function MobileHeader() {
   return (

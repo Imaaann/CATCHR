@@ -1,5 +1,5 @@
 import Image from "next/image";
-import GameplayPlaceHolder from "../../../../public/images/Gameplay-Placeholder.png";
+import GameplayPlaceHolder from "@/../public/images/Gameplay-Placeholder.png";
 
 function MobileAbout() {
   return (

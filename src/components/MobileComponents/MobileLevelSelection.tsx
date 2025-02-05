@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Key } from "react";
 import LevelCard from "../LevelCard";
 import MobileComponent from "./MobileComponent";
 import MobileHeader from "./MobileHeader";
 
-function MobileLevelSelection({ levelIds }: { levelIds: number[] }) {
+function MobileLevelSelection({ levels }: { levels: any[] }) {
   return (
     <MobileComponent>
       <MobileHeader />
@@ -10,8 +12,8 @@ function MobileLevelSelection({ levelIds }: { levelIds: number[] }) {
         <h1 className="text-white font-hoover text-3xl my-12">Level Select</h1>
 
         <div className="flex flex-wrap gap-6 p-3">
-          {levelIds.map((id, index) => {
-            return <LevelCard id={id} key={index} />;
+          {levels.map((level: any, index: Key) => {
+            return <LevelCard level={level} key={index} />;
           })}
         </div>
       </div>

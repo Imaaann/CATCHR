@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Key } from "react";
 import LevelCard from "../LevelCard";
 import TitleTriangle from "../svg/TitleTriangle";
 import DesktopComponent from "./DesktopComponent";
@@ -15,14 +17,14 @@ function LevelSelectTriangle() {
   );
 }
 
-function DesktopLevelSelection({ levelIds }: { levelIds: number[] }) {
+function DesktopLevelSelection({ levels }: { levels: any[] }) {
   return (
     <DesktopComponent>
       <div className="ml-8 relative">
         <LevelSelectTriangle />
         <div className="flex flex-wrap gap-6 mt-16 p-6">
-          {levelIds.map((id, index) => {
-            return <LevelCard id={id} key={index} />;
+          {levels.map((level: any, index: Key) => {
+            return <LevelCard level={level} key={index} />;
           })}
         </div>
       </div>
