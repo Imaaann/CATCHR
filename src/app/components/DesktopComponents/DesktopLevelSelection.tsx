@@ -15,10 +15,7 @@ function LevelSelectTriangle() {
   );
 }
 
-function DesktopLevelSelection() {
-  // Fetch all Level Ids
-  const levelIds: number[] = [100, 100, 100, 100, 100, 100, 100, 100];
-
+function DesktopLevelSelection({ levelIds }: { levelIds: number[] }) {
   return (
     <DesktopComponent>
       <div className="ml-8 relative">

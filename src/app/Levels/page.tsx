@@ -2,10 +2,12 @@ import DesktopLevelSelection from "../components/DesktopComponents/DesktopLevelS
 import MobileLevelSelection from "../components/MobileComponents/MobileLevelSelection";
 
 function Home() {
+  const ids: number[] = [100, 100, 100, 100, 100, 100, 100];
+
   return (
     <div className="overflow-auto scrollbar-none">
-      <MobileLevelSelection />
-      <DesktopLevelSelection />
+      <MobileLevelSelection levelIds={ids} />
+      <DesktopLevelSelection levelIds={ids} />
     </div>
   );
 }
