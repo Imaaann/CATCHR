@@ -2,19 +2,28 @@
 import { levelData } from "@/components/LevelCard";
 import { supabaseClient } from "@/lib/supabaseClient";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { isValidLevelData } from "../levels/page";
 import LevelLoading from "@/components/LevelLoading";
 import NoLevel from "@/components/NoLevel";
+import NowPlaying from "@/components/NowPlaying";
+import dynamic from "next/dynamic";
+
+const Game = dynamic(() => import("@/components/Game"), { ssr: false });
 
 function Home() {
   const searchParams = useSearchParams();
   const levelUuid = searchParams.get("uuid");
   const [levelData, setLevelData] = useState<levelData>();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [levelJSON, setLevelJSON] = useState(null);
 
+  const fetchedLevel = useRef(false);
+
   useEffect(() => {
-    if (!levelUuid) return;
+    if (!levelUuid || fetchedLevel.current) return;
+
+    fetchedLevel.current = true;
 
     const fetchLevel = async () => {
       const { data, error } = await supabaseClient.from("levels").select("*").eq("id", levelUuid);
@@ -76,8 +85,13 @@ function Home() {
     );
 
   return (
-    <div className="font-hoover text-3xl text-white">
-      Level Starting with level: {JSON.stringify(levelJSON)}
+    <div className="font-hoover text-3xl text-white relative">
+      <NowPlaying
+        imageSrc={levelData.image_url}
+        title={levelData.title}
+        difficulty={levelData.difficulty}
+      />
+      <Game />
     </div>
   );
 }
