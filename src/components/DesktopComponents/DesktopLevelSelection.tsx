@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Key } from "react";
-import LevelCard from "../LevelCard";
+import LevelCard, { levelData } from "../LevelCard";
 import TitleTriangle from "../svg/TitleTriangle";
 import DesktopComponent from "./DesktopComponent";
 
@@ -17,7 +17,7 @@ function LevelSelectTriangle() {
   );
 }
 
-function DesktopLevelSelection({ levels }: { levels: any[] }) {
+function DesktopLevelSelection({ levels }: { levels: levelData[] }) {
   return (
     <DesktopComponent>
       <div className="ml-8 relative">
