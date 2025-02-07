@@ -41,6 +41,7 @@ function Home() {
               image_url: "NONE",
               level_file_url: "NONE",
               difficulty: "NONE",
+              audio_url: "NONE",
             };
         setLevelData(validLevel);
       }
