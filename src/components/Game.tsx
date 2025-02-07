@@ -20,6 +20,13 @@ function Game() {
         antialias: false,
         pixelArt: false,
         scene: [catchrScene],
+        physics: {
+          default: "arcade",
+          arcade: {
+            debug: true,
+            gravity: { y: 0, x: 0 },
+          },
+        },
       });
 
       setGame(phaserGame);
