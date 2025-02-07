@@ -1,13 +1,13 @@
 "use client";
-import { levelData } from "@/components/LevelCard";
+import type { levelData } from "@/types/levelData";
 import { supabaseClient } from "@/lib/supabaseClient";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { isValidLevelData } from "../levels/page";
 import LevelLoading from "@/components/LevelLoading";
 import NoLevel from "@/components/NoLevel";
 import NowPlaying from "@/components/NowPlaying";
 import dynamic from "next/dynamic";
+import { isValidLevelData } from "@/helpers/common";
 
 const Game = dynamic(() => import("@/components/Game"), { ssr: false });
 

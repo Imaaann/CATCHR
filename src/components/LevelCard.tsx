@@ -1,15 +1,7 @@
 import Image from "next/image";
 import DifficultyCard from "./DifficultyCard";
 import Link from "next/link";
-
-export type levelData = {
-  id: string;
-  title: string;
-  image_url: string;
-  level_file_url: string;
-  difficulty: string;
-  audio_url: string;
-};
+import type { levelData } from "@/types/levelData";
 
 function LevelCard({ level }: { level: levelData }) {
   return (

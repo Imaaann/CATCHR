@@ -17,13 +17,16 @@ function Game() {
         width: window.innerWidth,
         height: window.innerHeight,
         parent: gameContainer.current!,
+        antialias: false,
+        pixelArt: false,
         scene: [catchrScene],
       });
 
       setGame(phaserGame);
     }
-
-    initPhaser();
+    if (!game) {
+      initPhaser();
+    }
 
     return () => {
       game?.destroy(true);
