@@ -3,6 +3,7 @@
 // @ts-nocheck
 
 import { levelData, LevelJSON } from "@/types/levelData";
+import HitCircle from "./HitCircle";
 
 export default class catchrScene extends Phaser.Scene {
   private blob!: Phaser.GameObjects.Image;
@@ -13,10 +14,10 @@ export default class catchrScene extends Phaser.Scene {
 
   private centerX!: number;
   private centerY!: number;
-  private handDistance: number = 100;
+  private handDistance: number = 120;
   private isReversed: boolean = false;
 
-  private hitCircles!: Phaser.GameObjects.Group;
+  private hitCircles!: Phaser.Physics.Arcade.Group;
 
   constructor() {
     super("catchrScene");
@@ -31,6 +32,7 @@ export default class catchrScene extends Phaser.Scene {
   preload() {
     this.load.svg("catchrHead", "/svg/CatchrHead.svg", { width: 60, height: 60 });
     this.load.svg("catchrHand", "/svg/CatchrHand.svg", { width: 22, height: 80 });
+    this.load.image("hitCircle", "/sprites/hitCircle.png");
   }
 
   create() {
@@ -47,7 +49,10 @@ export default class catchrScene extends Phaser.Scene {
 
     this.input.on("pointermove", this.handlerMouseMove, this);
 
-    this.hitCircles = this.physics.add.group();
+    this.hitCircles = this.physics.add.group({
+      classType: HitCircle,
+      runChildUpdate: true,
+    });
 
     this.time.addEvent({
       delay: 100,
@@ -60,37 +65,15 @@ export default class catchrScene extends Phaser.Scene {
   }
 
   spawnHitCircle() {
-    const radius = Phaser.Math.Between(200, 400);
-    const angle = Phaser.Math.Between(0, Math.PI * 2);
-
-    const x = this.centerX + Math.cos(angle) * radius;
-    const y = this.centerY + Math.sin(angle) * radius;
-
-    const hitCircle = this.add.circle(x, y, 30);
-    hitCircle.setStrokeStyle(2, 0xffffff);
-    hitCircle.setFillStyle(0x000000, 0);
-
-    this.hitCircles.add(hitCircle);
-
-    const speed = 50;
-    const distance = Phaser.Math.Distance.Between(x, y, this.centerX, this.centerY);
-    const duration = (distance / speed) * 1000;
-
-    this.tweens.add({
-      targets: hitCircle,
-      x: this.centerX,
-      y: this.centerY,
-      duration: duration,
-      ease: "Linear",
-      onComplete: () => {
-        hitCircle.destroy();
-      },
-    });
+    const newCircle = new HitCircle(this, 300, Phaser.Math.Between(0, 360));
+    this.hitCircles.add(newCircle);
   }
 
   handleHit(hand: Phaser.GameObjects.GameObject, hitCircle: Phaser.GameObjects.GameObject) {
-    hitCircle.destroy();
-    console.log("Hit");
+    if (hitCircle instanceof HitCircle) {
+      hitCircle.destroy();
+      console.log("Hit");
+    }
   }
 
   handlerMouseMove(pointer: Phaser.Input.Pointer) {
@@ -110,7 +93,5 @@ export default class catchrScene extends Phaser.Scene {
     this.hand.setRotation(angle);
   }
 
-  update(time: number, delta: number): void {
-    // Do shit at 60fps
-  }
+  update(time: number, delta: number): void {}
 }
