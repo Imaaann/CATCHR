@@ -2,9 +2,14 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
+import { levelData, LevelJSON } from "@/types/levelData";
+
 export default class catchrScene extends Phaser.Scene {
   private blob!: Phaser.GameObjects.Image;
   private hand!: Phaser.Physics.Arcade.Image;
+
+  private levelData!: levelData;
+  private levelJSON!: LevelJSON;
 
   private centerX!: number;
   private centerY!: number;
@@ -15,6 +20,12 @@ export default class catchrScene extends Phaser.Scene {
 
   constructor() {
     super("catchrScene");
+  }
+
+  init(data: { levelData: levelData; levelJSON: LevelJSON }) {
+    console.log("data", data);
+    this.levelData = data.levelData;
+    this.levelJSON = data.levelJSON;
   }
 
   preload() {

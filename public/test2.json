@@ -1,0 +1,41 @@
+[
+  [
+    { "type": "normal", "radius": 350, "angle": 30 },
+    { "type": "normal", "radius": 340, "angle": 210 }
+  ],
+  [
+    {
+      "type": "slider-start",
+      "radius": 300,
+      "angle": 160,
+      "speed": 70,
+      "pivotData": { "pivotsLeft": 2, "nextPivot": { "radius": 250, "angle": 140 } }
+    }
+  ],
+  [
+    {
+      "type": "slider-pivot",
+      "radius": 250,
+      "angle": 140,
+      "pivotData": { "pivotsLeft": 1, "nextPivot": { "radius": 200, "angle": 120 } }
+    }
+  ],
+  [
+    {
+      "type": "slider-pivot",
+      "radius": 200,
+      "angle": 120,
+      "pivotData": { "pivotsLeft": 0, "nextPivot": { "radius": 100, "angle": 100 } }
+    }
+  ],
+  [
+    { "type": "slider-end", "radius": 100, "angle": 100 },
+    { "type": "extra-hand", "radius": 300, "angle": 50 }
+  ],
+  [
+    { "type": "normal", "radius": 270, "angle": 10 },
+    { "type": "normal", "radius": 280, "angle": 190 }
+  ],
+  [{ "type": "remove-hand", "radius": 250, "angle": 90 }],
+  [{ "type": "normal", "radius": 280, "angle": 75 }]
+]

@@ -1,0 +1,29 @@
+[
+  [
+    { "type": "normal", "radius": 300, "angle": 45 },
+    { "type": "normal", "radius": 280, "angle": 120 }
+  ],
+  [
+    {
+      "type": "slider-start",
+      "radius": 250,
+      "angle": 90,
+      "speed": 60,
+      "pivotData": { "pivotsLeft": 1, "nextPivot": { "radius": 200, "angle": 60 } }
+    }
+  ],
+  [
+    {
+      "type": "slider-pivot",
+      "radius": 200,
+      "angle": 60,
+      "pivotData": { "pivotsLeft": 0, "nextPivot": { "radius": 100, "angle": 30 } }
+    }
+  ],
+  [
+    { "type": "slider-end", "radius": 100, "angle": 30 },
+    { "type": "mine", "radius": 220, "angle": 150 }
+  ],
+  [{ "type": "reverse", "radius": 250, "angle": 200 }],
+  [{ "type": "normal", "radius": 280, "angle": 75 }]
+]

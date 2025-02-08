@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import PhaserLoading from "./PhaserLoading";
+import { levelData, LevelJSON } from "@/types/levelData";
 
-function Game() {
+function Game({ levelData, levelJSON }: { levelData: levelData; levelJSON: LevelJSON }) {
   const gameContainer = useRef<HTMLDivElement>(null);
   const [game, setGame] = useState<Phaser.Game>();
 
@@ -30,6 +31,8 @@ function Game() {
       });
 
       setGame(phaserGame);
+
+      phaserGame.scene.start("catchrScene", { levelData, levelJSON });
     }
     if (!game) {
       initPhaser();

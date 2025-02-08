@@ -1,5 +1,5 @@
 "use client";
-import type { levelData } from "@/types/levelData";
+import type { levelData, LevelJSON } from "@/types/levelData";
 import { supabaseClient } from "@/lib/supabaseClient";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -7,7 +7,7 @@ import LevelLoading from "@/components/LevelLoading";
 import NoLevel from "@/components/NoLevel";
 import NowPlaying from "@/components/NowPlaying";
 import dynamic from "next/dynamic";
-import { isValidLevelData } from "@/helpers/common";
+import { isValidLevelData, isValidLevelJSON } from "@/helpers/common";
 
 const Game = dynamic(() => import("@/components/Game"), { ssr: false });
 
@@ -15,8 +15,7 @@ function Home() {
   const searchParams = useSearchParams();
   const levelUuid = searchParams.get("uuid");
   const [levelData, setLevelData] = useState<levelData>();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [levelJSON, setLevelJSON] = useState(null);
+  const [levelJSON, setLevelJSON] = useState<LevelJSON>([]);
 
   const fetchedLevel = useRef(false);
 
@@ -62,8 +61,8 @@ function Home() {
         );
 
         const json = await response.json();
-        console.log(json);
-        setLevelJSON(json);
+        const validJSON: LevelJSON = isValidLevelJSON(json) ? json : [];
+        setLevelJSON(validJSON);
       } catch (error) {
         console.error("error fetching level.json: ", error);
       }
@@ -92,7 +91,7 @@ function Home() {
         title={levelData.title}
         difficulty={levelData.difficulty}
       />
-      <Game />
+      <Game levelData={levelData} levelJSON={levelJSON} />
     </div>
   );
 }
