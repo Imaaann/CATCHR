@@ -1,12 +1,19 @@
 import catchrScene from "./catchr";
 
+type onCompleteType = () => void;
 export default class HitCircle extends Phaser.Physics.Arcade.Image {
+  private isHit: boolean = false;
+
   constructor(
-    scene: Phaser.Scene,
+    scene: catchrScene,
     radius: number,
     angle: number,
     speed: number = 50,
-    type: string = "hitCircle"
+    type: string = "hitCircle",
+    onComplete: onCompleteType = () => {
+      this.destroy();
+      if (!this.isHit) scene.updateCombo(1);
+    }
   ) {
     const centerX = scene.scale.width / 2;
     const centerY = scene.scale.height / 2;
@@ -33,9 +40,7 @@ export default class HitCircle extends Phaser.Physics.Arcade.Image {
       y: endY,
       duration: duration,
       ease: "linear",
-      onComplete: () => {
-        this.destroy();
-      },
+      onComplete: onComplete,
     });
   }
 
@@ -43,5 +48,8 @@ export default class HitCircle extends Phaser.Physics.Arcade.Image {
     const effect = scene.add.sprite(this.x, this.y, "hitCircleHit");
     effect.play("hitCircleEffect");
     this.destroy();
+    this.isHit = true;
+    scene.updateScore(scene.score + 100 * scene.combo);
+    scene.updateCombo(scene.combo + 1);
   }
 }

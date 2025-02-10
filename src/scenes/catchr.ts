@@ -5,6 +5,7 @@
 import { levelData, LevelJSON } from "@/types/levelData";
 import HitCircle from "./HitCircle";
 import { createLocalRequestContext } from "next/dist/server/after/builtin-request-context";
+import Mine from "./Mine";
 
 export default class catchrScene extends Phaser.Scene {
   private blob!: Phaser.GameObjects.Image;
@@ -19,6 +20,12 @@ export default class catchrScene extends Phaser.Scene {
   private isReversed: boolean = false;
 
   private hitCircles!: Phaser.Physics.Arcade.Group;
+
+  score: number = 0;
+  combo: number = 1;
+
+  private scoreText: Phaser.GameObjects.Text;
+  private comboText: Phaser.GameObjects.Text;
 
   constructor() {
     super("catchrScene");
@@ -47,6 +54,11 @@ export default class catchrScene extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 64,
     });
+
+    this.load.spritesheet("mineHit", "/sprites/Mine-Hit.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
   }
 
   create() {
@@ -54,6 +66,14 @@ export default class catchrScene extends Phaser.Scene {
     this.anims.create({
       key: "hitCircleEffect",
       frames: this.anims.generateFrameNumbers("hitCircleHit", { start: 0, end: 8 }),
+      frameRate: 15,
+      repeat: 0,
+      hideOnComplete: true,
+    });
+
+    this.anims.create({
+      key: "mineEffect",
+      frames: this.anims.generateFrameNumbers("mineHit", { start: 0, end: 8 }),
       frameRate: 15,
       repeat: 0,
       hideOnComplete: true,
@@ -74,6 +94,26 @@ export default class catchrScene extends Phaser.Scene {
 
     this.input.on("pointermove", this.handlerMouseMove, this);
 
+    // Display Score
+    const marginTop = 20;
+
+    this.scoreText = this.add
+      .text(this.centerX, marginTop, `${this.score}`, {
+        fontSize: "28px",
+        color: "#ffffff",
+        fontFamily: "Arial",
+      })
+      .setOrigin(0.5, 0);
+
+    // Display Combo
+    this.comboText = this.add
+      .text(this.centerX, marginTop + 40, `x${this.combo}`, {
+        fontSize: "24px",
+        color: "#ffff99",
+        fontFamily: "Arial",
+      })
+      .setOrigin(0.5, 0);
+
     // Define hitCircles
     this.hitCircles = this.physics.add.group({
       classType: HitCircle,
@@ -82,7 +122,7 @@ export default class catchrScene extends Phaser.Scene {
 
     // Define spawn event and collision event
     this.time.addEvent({
-      delay: 100,
+      delay: 500,
       callback: this.spawnHitCircle,
       callbackScope: this,
       loop: true,
@@ -91,9 +131,27 @@ export default class catchrScene extends Phaser.Scene {
     this.physics.add.overlap(this.hand, this.hitCircles, this.handleHit, undefined, this);
   }
 
+  updateScore(score) {
+    this.score = score;
+    this.scoreText.setText(`${this.score}`);
+  }
+
+  updateCombo(combo) {
+    this.combo = combo;
+    this.comboText.setText(`x${this.combo}`);
+  }
+
   spawnHitCircle() {
-    const newCircle = new HitCircle(this, 300, Phaser.Math.Between(0, 360));
+    const dice = Phaser.Math.Between(0, 5);
+    let newCircle: HitCircle;
+    if (dice != 1) {
+      newCircle = new HitCircle(this, 300, Phaser.Math.Between(0, 360));
+    } else {
+      newCircle = new Mine(this, 300, Phaser.Math.Between(0, 360));
+    }
+
     this.hitCircles.add(newCircle);
+    console.log(this.score, this.combo);
   }
 
   handleHit(hand: Phaser.GameObjects.GameObject, hitCircle: Phaser.GameObjects.GameObject) {
