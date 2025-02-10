@@ -6,6 +6,7 @@ import { levelData, LevelJSON } from "@/types/levelData";
 import HitCircle from "./HitCircle";
 import { createLocalRequestContext } from "next/dist/server/after/builtin-request-context";
 import Mine from "./Mine";
+import Reverse from "./Reverse";
 
 export default class catchrScene extends Phaser.Scene {
   private blob!: Phaser.GameObjects.Image;
@@ -17,15 +18,15 @@ export default class catchrScene extends Phaser.Scene {
   private centerX!: number;
   private centerY!: number;
   private handDistance: number = 120;
-  private isReversed: boolean = false;
 
   private hitCircles!: Phaser.Physics.Arcade.Group;
 
-  score: number = 0;
-  combo: number = 1;
-
   private scoreText: Phaser.GameObjects.Text;
   private comboText: Phaser.GameObjects.Text;
+
+  score: number = 0;
+  combo: number = 1;
+  isReversed: boolean = false;
 
   constructor() {
     super("catchrScene");
@@ -59,6 +60,11 @@ export default class catchrScene extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 64,
     });
+
+    this.load.spritesheet("reverseHit", "/sprites/Reverse-Hit.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
   }
 
   create() {
@@ -75,6 +81,14 @@ export default class catchrScene extends Phaser.Scene {
       key: "mineEffect",
       frames: this.anims.generateFrameNumbers("mineHit", { start: 0, end: 8 }),
       frameRate: 15,
+      repeat: 0,
+      hideOnComplete: true,
+    });
+
+    this.anims.create({
+      key: "reverseEffect",
+      frames: this.anims.generateFrameNumbers("reverseHit", { start: 0, end: 20 }),
+      frameRate: 20,
       repeat: 0,
       hideOnComplete: true,
     });
@@ -144,10 +158,16 @@ export default class catchrScene extends Phaser.Scene {
   spawnHitCircle() {
     const dice = Phaser.Math.Between(0, 5);
     let newCircle: HitCircle;
-    if (dice != 1) {
-      newCircle = new HitCircle(this, 300, Phaser.Math.Between(0, 360));
-    } else {
-      newCircle = new Mine(this, 300, Phaser.Math.Between(0, 360));
+    switch (dice) {
+      case 0:
+        newCircle = new Mine(this, 300, Phaser.Math.Between(0, 360));
+        break;
+      case 1:
+        newCircle = new Reverse(this, 300, Phaser.Math.Between(0, 360));
+        break;
+      default:
+        newCircle = new HitCircle(this, 300, Phaser.Math.Between(0, 360));
+        break;
     }
 
     this.hitCircles.add(newCircle);
