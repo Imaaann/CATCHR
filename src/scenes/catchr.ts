@@ -4,6 +4,7 @@
 
 import { levelData, LevelJSON } from "@/types/levelData";
 import HitCircle from "./HitCircle";
+import { createLocalRequestContext } from "next/dist/server/after/builtin-request-context";
 
 export default class catchrScene extends Phaser.Scene {
   private blob!: Phaser.GameObjects.Image;
@@ -30,30 +31,56 @@ export default class catchrScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.svg("catchrHead", "/svg/CatchrHead.svg", { width: 60, height: 60 });
-    this.load.svg("catchrHand", "/svg/CatchrHand.svg", { width: 22, height: 80 });
+    // Load images
+    this.load.image("catchrHead", "/sprites/blob.png");
+    this.load.image("catchrHand", "/sprites/hand.png");
     this.load.image("hitCircle", "/sprites/hitCircle.png");
+    this.load.image("Slider", "/sprites/Slider.png");
+    this.load.image("Dot", "/sprites/Slider-dot.png");
+    this.load.image("Mine", "/sprites/Mine.png");
+    this.load.image("Reverse", "/sprites/Reverse.png");
+    this.load.image("Extra", "/sprites/Extra.png");
+    this.load.image("Return", "/sprites/Return.png");
+
+    // Load spritesheets
+    this.load.spritesheet("hitCircleHit", "/sprites/HitCircle-Hit.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
   }
 
   create() {
+    // Define animations
+    this.anims.create({
+      key: "hitCircleEffect",
+      frames: this.anims.generateFrameNumbers("hitCircleHit", { start: 0, end: 8 }),
+      frameRate: 15,
+      repeat: 0,
+      hideOnComplete: true,
+    });
+
+    // Define head
     const { height, width } = this.sys.game.canvas;
     this.centerX = width / 2;
     this.centerY = height / 2;
 
     this.blob = this.add.image(this.centerX, this.centerY, "catchrHead");
 
+    // Define hand
     this.hand = this.physics.add.image(this.blob.x + this.handDistance, this.blob.y, "catchrHand");
-    this.hand.setCircle(20, -10, 20);
+    this.hand.setCircle(20, 20, 20);
     this.hand.setCollideWorldBounds(true);
     this.hand.setImmovable(false);
 
     this.input.on("pointermove", this.handlerMouseMove, this);
 
+    // Define hitCircles
     this.hitCircles = this.physics.add.group({
       classType: HitCircle,
       runChildUpdate: true,
     });
 
+    // Define spawn event and collision event
     this.time.addEvent({
       delay: 100,
       callback: this.spawnHitCircle,
@@ -71,8 +98,7 @@ export default class catchrScene extends Phaser.Scene {
 
   handleHit(hand: Phaser.GameObjects.GameObject, hitCircle: Phaser.GameObjects.GameObject) {
     if (hitCircle instanceof HitCircle) {
-      hitCircle.destroy();
-      console.log("Hit");
+      hitCircle.handleHit(this);
     }
   }
 
