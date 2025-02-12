@@ -8,17 +8,20 @@ import { createLocalRequestContext } from "next/dist/server/after/builtin-reques
 import Mine from "./Mine";
 import Reverse from "./Reverse";
 import Return from "./Return";
+import Extra from "./Extra";
+import Hand from "./Hand";
 
 export default class catchrScene extends Phaser.Scene {
   private blob!: Phaser.GameObjects.Image;
   private hand!: Phaser.Physics.Arcade.Image;
+
+  private hands!: Phaser.Physics.Arcade.Group;
 
   private levelData!: levelData;
   private levelJSON!: LevelJSON;
 
   private centerX!: number;
   private centerY!: number;
-  private handDistance: number = 120;
 
   private hitCircles!: Phaser.Physics.Arcade.Group;
 
@@ -28,6 +31,8 @@ export default class catchrScene extends Phaser.Scene {
   score: number = 0;
   combo: number = 1;
   isReversed: boolean = false;
+  handCount: number = 1;
+  handDistance: number = 120;
 
   constructor() {
     super("catchrScene");
@@ -71,9 +76,15 @@ export default class catchrScene extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 64,
     });
+
+    this.load.spritesheet("extraHit", "/sprites/Extra-Hit.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
   }
 
   create() {
+    //#region Animations
     // Define animations
     this.anims.create({
       key: "hitCircleEffect",
@@ -107,6 +118,17 @@ export default class catchrScene extends Phaser.Scene {
       hideOnComplete: true,
     });
 
+    this.anims.create({
+      key: "extraEffect",
+      frames: this.anims.generateFrameNumbers("extraHit", { start: 0, end: 20 }),
+      frameRate: 20,
+      repeat: 0,
+      hideOnComplete: true,
+    });
+    //#endregion
+
+    //#region Player
+
     // Define head
     const { height, width } = this.sys.game.canvas;
     this.centerX = width / 2;
@@ -115,13 +137,16 @@ export default class catchrScene extends Phaser.Scene {
     this.blob = this.add.image(this.centerX, this.centerY, "catchrHead");
 
     // Define hand
-    this.hand = this.physics.add.image(this.blob.x + this.handDistance, this.blob.y, "catchrHand");
-    this.hand.setCircle(20, 20, 20);
-    this.hand.setCollideWorldBounds(true);
-    this.hand.setImmovable(false);
+    this.hands = this.physics.add.group({
+      classType: Hand,
+    });
+    this.hands.add(new Hand(this, 0));
 
-    this.input.on("pointermove", this.handlerMouseMove, this);
+    this.input.on("pointermove", this.handleMouseMove, this);
 
+    //#endregion
+
+    //#region score/combo/health
     // Display Score
     const marginTop = 20;
 
@@ -141,7 +166,9 @@ export default class catchrScene extends Phaser.Scene {
         fontFamily: "Arial",
       })
       .setOrigin(0.5, 0);
+    //#endregion
 
+    //#region hitCircles
     // Define hitCircles
     this.hitCircles = this.physics.add.group({
       classType: HitCircle,
@@ -156,7 +183,8 @@ export default class catchrScene extends Phaser.Scene {
       loop: true,
     });
 
-    this.physics.add.overlap(this.hand, this.hitCircles, this.handleHit, undefined, this);
+    this.physics.add.overlap(this.hands, this.hitCircles, this.handleHit, undefined, this);
+    //#endregion
   }
 
   updateScore(score) {
@@ -169,8 +197,35 @@ export default class catchrScene extends Phaser.Scene {
     this.comboText.setText(`x${this.combo}`);
   }
 
+  spawnHand() {
+    const newHand = new Hand(this, ++this.handCount);
+    this.hands.add(newHand);
+
+    this.hands
+      .getChildren()
+      .forEach((hand: Hand, index: number) => hand.updateAngle(index, this.handCount));
+
+    const pointer = this.input.activePointer;
+
+    this.input.emit("pointermove", {
+      x: pointer.x,
+      y: pointer.y,
+      worldX: pointer.worldX,
+      worldY: pointer.worldY,
+    });
+  }
+
+  clearHands() {
+    this.hands.getChildren().forEach((hand: Hand, index: number) => {
+      if (index == 0) return;
+      hand.remove();
+    });
+
+    this.handCount = 1;
+  }
+
   spawnHitCircle() {
-    const dice = Phaser.Math.Between(0, 5);
+    const dice = Phaser.Math.Between(0, 15);
     const angle = Phaser.Math.Between(0, 360);
     const radius = Phaser.Math.Between(200, 400);
     let newCircle: HitCircle;
@@ -184,13 +239,15 @@ export default class catchrScene extends Phaser.Scene {
       case 2:
         newCircle = new Return(this, radius, angle);
         break;
+      case 3:
+        newCircle = new Extra(this, radius, angle);
+        break;
       default:
         newCircle = new HitCircle(this, radius, angle);
         break;
     }
 
     this.hitCircles.add(newCircle);
-    console.log(this.score, this.combo);
   }
 
   handleHit(hand: Phaser.GameObjects.GameObject, hitCircle: Phaser.GameObjects.GameObject) {
@@ -199,22 +256,9 @@ export default class catchrScene extends Phaser.Scene {
     }
   }
 
-  handlerMouseMove(pointer: Phaser.Input.Pointer) {
-    const mouseX = pointer.x;
-    const mouseY = pointer.y;
-
-    const dx = mouseX - this.centerX;
-    const dy = mouseY - this.centerY;
-    let angle = Math.atan2(dy, dx);
-    angle = this.isReversed ? angle + Math.PI : angle;
-
-    this.hand.setPosition(
-      this.centerX + Math.cos(angle) * this.handDistance,
-      this.centerY + Math.sin(angle) * this.handDistance
-    );
-
-    this.hand.setRotation(angle);
+  handleMouseMove(pointer: Phaser.Input.Pointer) {
+    this.hands.getChildren().forEach((hand: Hand) => {
+      hand.move(pointer, this);
+    });
   }
-
-  update(time: number, delta: number): void {}
 }
