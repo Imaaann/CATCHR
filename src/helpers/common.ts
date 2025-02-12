@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { HitCircle, levelData, LevelJSON } from "@/types/levelData";
+import { HitCircle, levelData, LevelJSON, PivotData } from "@/types/levelData";
 
 export function isValidLevelData(data: any): data is levelData {
   return (
@@ -26,7 +26,7 @@ export function isValidLevelJSON(data: any): data is LevelJSON {
 
     for (const obj of frame) {
       if (!isValidHitCircle(obj)) {
-        console.error("Object isnt a valid hitCircle");
+        console.error("Object isn't a valid HitCircle", obj);
         return false;
       }
     }
@@ -36,52 +36,50 @@ export function isValidLevelJSON(data: any): data is LevelJSON {
 }
 
 export function isValidHitCircle(data: any): data is HitCircle {
-  const validType = [
-    "normal",
-    "slider-start",
-    "slider-pivot",
-    "slider-end",
-    "mine",
-    "reverse",
-    "extra-hand",
-    "remove-hand",
-  ];
+  const validTypes = ["normal", "slider", "mine", "reverse", "extra-hand", "remove-hand"];
 
   if (typeof data !== "object") {
-    console.error("Hit circle isn't an object", data);
+    console.error("HitCircle isn't an object", data);
     return false;
   }
-  if (!validType.includes(data.type)) {
-    console.error("Hit circle isnt a valid type", data);
+  if (!validTypes.includes(data.type)) {
+    console.error("HitCircle isn't a valid type", data);
     return false;
   }
   if (typeof data.radius !== "number" || data.radius < 0) {
-    console.error("Hit circle has invalid radius", data);
+    console.error("HitCircle has an invalid radius", data);
     return false;
   }
   if (typeof data.angle !== "number" || data.angle < 0 || data.angle > 360) {
-    console.error("Hit circle has invalid angle", data);
+    console.error("HitCircle has an invalid angle", data);
     return false;
   }
   if (data.speed !== undefined && (typeof data.speed !== "number" || data.speed < 0)) {
-    console.error("Hit circle has invalid speed", data);
+    console.error("HitCircle has an invalid speed", data);
     return false;
   }
 
-  if (data.type.startsWith("slider") && data.type !== "slider-end" && !isValidPivot(data)) {
-    console.error("Hit circle has invalid pivots", data);
+  // Validate sliders that require pivot data
+  if (data.type === "slider" && !isValidPivotData(data.pivotData)) {
+    console.error("Slider has invalid pivot data", data);
     return false;
   }
 
   return true;
 }
 
-export function isValidPivot(data: any): boolean {
-  if (!data.pivotData) return false;
-  const { pivotsLeft, nextPivot } = data.pivotData;
-  if (typeof pivotsLeft !== "number" || pivotsLeft < 0) return false;
-  if (!nextPivot || typeof nextPivot.radius !== "number" || typeof nextPivot.angle !== "number")
+export function isValidPivotData(pivotData: any): pivotData is PivotData {
+  if (!pivotData || typeof pivotData !== "object") return false;
+  if (
+    typeof pivotData.radius !== "number" ||
+    pivotData.radius < 0 ||
+    typeof pivotData.angle !== "number" ||
+    pivotData.angle < 0 ||
+    pivotData.angle > 360 ||
+    typeof pivotData.frames !== "number" ||
+    pivotData.frames < 1
+  ) {
     return false;
-
+  }
   return true;
 }

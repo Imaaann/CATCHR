@@ -2,7 +2,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
-import { levelData, LevelJSON } from "@/types/levelData";
+import { levelData, LevelJSON, PivotData, SliderLine } from "@/types/levelData";
 import HitCircle from "./HitCircle";
 import { createLocalRequestContext } from "next/dist/server/after/builtin-request-context";
 import Mine from "./Mine";
@@ -10,6 +10,8 @@ import Reverse from "./Reverse";
 import Return from "./Return";
 import Extra from "./Extra";
 import Hand from "./Hand";
+import Dot from "./Dot";
+import Slider from "./Slider";
 
 export default class catchrScene extends Phaser.Scene {
   private blob!: Phaser.GameObjects.Image;
@@ -33,6 +35,7 @@ export default class catchrScene extends Phaser.Scene {
   isReversed: boolean = false;
   handCount: number = 1;
   handDistance: number = 120;
+  pendingSliders!: { line: SliderLine; current: number }[] = [];
 
   constructor() {
     super("catchrScene");
@@ -81,6 +84,16 @@ export default class catchrScene extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 64,
     });
+
+    this.load.spritesheet("sliderHit", "/sprites/Slider-Hit.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
+    this.load.spritesheet("dotHit", "/sprites/Slider-dot-Hit.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
   }
 
   create() {
@@ -125,6 +138,23 @@ export default class catchrScene extends Phaser.Scene {
       repeat: 0,
       hideOnComplete: true,
     });
+
+    this.anims.create({
+      key: "sliderEffect",
+      frames: this.anims.generateFrameNumbers("sliderHit", { start: 0, end: 4 }),
+      frameRate: 15,
+      repeat: 0,
+      hideOnComplete: true,
+    });
+
+    this.anims.create({
+      key: "dotEffect",
+      frames: this.anims.generateFrameNumbers("dotHit", { start: 0, end: 4 }),
+      frameRate: 15,
+      repeat: 0,
+      hideOnComplete: true,
+    });
+
     //#endregion
 
     //#region Player
@@ -224,6 +254,7 @@ export default class catchrScene extends Phaser.Scene {
     const angle = Phaser.Math.Between(0, 360);
     const radius = Phaser.Math.Between(200, 400);
     let newCircle: HitCircle;
+
     switch (dice) {
       // case 0:
       //   newCircle = new Mine(this, radius, angle);
@@ -237,12 +268,30 @@ export default class catchrScene extends Phaser.Scene {
       // case 3:
       //   newCircle = new Extra(this, radius, angle);
       //   break;
+      case 10:
+        newCircle = new Slider(this, radius, angle, {
+          radius: Phaser.Math.Between(200, 400),
+          angle: Phaser.Math.Between(0, 360),
+          frames: 10,
+        });
+        break;
       default:
         newCircle = new HitCircle(this, radius, angle);
         break;
     }
 
+    const SliderDots = this.pendingSliders
+      .map((slider) => {
+        slider.current++;
+        if (slider.line.time > slider.current) {
+          return Slider.spawnDot(this, slider.line, slider.current);
+        }
+      })
+      .filter((dot) => dot !== undefined);
+    this.pendingSliders = this.pendingSliders.filter((slider) => slider.line.time > slider.current);
+
     this.hitCircles.add(newCircle);
+    this.hitCircles.addMultiple(SliderDots);
   }
 
   simulateMove() {

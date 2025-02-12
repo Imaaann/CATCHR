@@ -8,25 +8,23 @@ export type levelData = {
 };
 
 export type HitCircle = {
-  type:
-    | "normal"
-    | "slider-start"
-    | "slider-pivot"
-    | "slider-end"
-    | "mine"
-    | "reverse"
-    | "extra-hand"
-    | "remove-hand";
+  type: "normal" | "slider" | "mine" | "reverse" | "extra-hand" | "remove-hand";
   radius: number;
   angle: number;
   speed?: number;
 };
 
+export type PivotData = { radius: number; angle: number; frames: number };
+
+export type SliderLine = {
+  start: { radius: number; angle: number };
+  end: { radius: number; angle: number };
+  time: number;
+  speed: number;
+};
+
 export type SliderPivot = HitCircle & {
-  pivotData?: {
-    pivotsLeft: number;
-    nextPivot: { radius: number; angle: number };
-  };
+  pivotData?: PivotData;
 };
 
 export type LevelJSON = HitCircle[][];
