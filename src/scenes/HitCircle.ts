@@ -52,4 +52,8 @@ export default class HitCircle extends Phaser.Physics.Arcade.Image {
     scene.updateScore(scene.score + 100 * scene.combo);
     scene.updateCombo(scene.combo + 1);
   }
+
+  setHit(val: boolean) {
+    this.isHit = val;
+  }
 }

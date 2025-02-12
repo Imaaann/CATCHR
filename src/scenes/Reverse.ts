@@ -15,6 +15,8 @@ export default class Reverse extends HitCircle {
   handleHit(scene: catchrScene): void {
     const effect = scene.add.sprite(this.x, this.y, "reverseHit");
     effect.play("reverseEffect");
+
+    super.setHit(true);
     this.destroy();
     scene.isReversed = true;
   }

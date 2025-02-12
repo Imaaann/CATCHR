@@ -45,8 +45,4 @@ export default class Hand extends Phaser.Physics.Arcade.Image {
   updateAngle(index: number, count: number) {
     this.angleOffset = (index / count) * (2 * Math.PI);
   }
-
-  remove() {
-    this.destroy();
-  }
 }

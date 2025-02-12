@@ -15,6 +15,8 @@ export default class Return extends HitCircle {
   handleHit(scene: catchrScene): void {
     const effect = scene.add.sprite(this.x, this.y, "returnHit");
     effect.play("returnEffect");
+
+    super.setHit(true);
     this.destroy();
     scene.isReversed = false;
     scene.clearHands();

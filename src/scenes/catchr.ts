@@ -205,23 +205,18 @@ export default class catchrScene extends Phaser.Scene {
       .getChildren()
       .forEach((hand: Hand, index: number) => hand.updateAngle(index, this.handCount));
 
-    const pointer = this.input.activePointer;
-
-    this.input.emit("pointermove", {
-      x: pointer.x,
-      y: pointer.y,
-      worldX: pointer.worldX,
-      worldY: pointer.worldY,
-    });
+    this.simulateMove();
   }
 
   clearHands() {
-    this.hands.getChildren().forEach((hand: Hand, index: number) => {
-      if (index == 0) return;
-      hand.remove();
-    });
+    this.hands.clear(true, true);
+
+    const newHand = new Hand(this, 0);
+    this.hands.add(newHand);
 
     this.handCount = 1;
+
+    this.simulateMove();
   }
 
   spawnHitCircle() {
@@ -230,24 +225,35 @@ export default class catchrScene extends Phaser.Scene {
     const radius = Phaser.Math.Between(200, 400);
     let newCircle: HitCircle;
     switch (dice) {
-      case 0:
-        newCircle = new Mine(this, radius, angle);
-        break;
-      case 1:
-        newCircle = new Reverse(this, radius, angle);
-        break;
-      case 2:
-        newCircle = new Return(this, radius, angle);
-        break;
-      case 3:
-        newCircle = new Extra(this, radius, angle);
-        break;
+      // case 0:
+      //   newCircle = new Mine(this, radius, angle);
+      //   break;
+      // case 1:
+      //   newCircle = new Reverse(this, radius, angle);
+      //   break;
+      // case 2:
+      //   newCircle = new Return(this, radius, angle);
+      //   break;
+      // case 3:
+      //   newCircle = new Extra(this, radius, angle);
+      //   break;
       default:
         newCircle = new HitCircle(this, radius, angle);
         break;
     }
 
     this.hitCircles.add(newCircle);
+  }
+
+  simulateMove() {
+    const pointer = this.input.activePointer;
+
+    this.input.emit("pointermove", {
+      x: pointer.x,
+      y: pointer.y,
+      worldX: pointer.worldX,
+      worldY: pointer.worldY,
+    });
   }
 
   handleHit(hand: Phaser.GameObjects.GameObject, hitCircle: Phaser.GameObjects.GameObject) {

@@ -15,6 +15,8 @@ export default class Extra extends HitCircle {
   handleHit(scene: catchrScene): void {
     const effect = scene.add.sprite(this.x, this.y, "extraHit");
     effect.play("extraEffect");
+
+    super.setHit(true);
     this.destroy();
     scene.spawnHand();
   }
