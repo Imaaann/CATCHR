@@ -28,6 +28,7 @@ export default class catchrScene extends Phaser.Scene {
   private comboText: Phaser.GameObjects.Text;
   private healthBar: Phaser.GameObjects.Graphics;
 
+  gameRunning: boolean = false;
   score: number = 0;
   combo: number = 1;
   maxCombo: number = 1;
@@ -53,6 +54,7 @@ export default class catchrScene extends Phaser.Scene {
   preload() {
     // Load images
     this.load.image("catchrHead", "/sprites/blob.png");
+    this.load.image("catchrPause", "/sprites/paused.png");
     this.load.image("catchrHand", "/sprites/hand.png");
     this.load.image("hitCircle", "/sprites/hitCircle.png");
     this.load.image("Slider", "/sprites/Slider.png");
@@ -97,6 +99,10 @@ export default class catchrScene extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 64,
     });
+
+    if (this.levelData && this.levelData.audio_url) {
+      this.load.audio("levelMusic", this.levelData.audio_url);
+    }
   }
 
   create() {
@@ -160,6 +166,15 @@ export default class catchrScene extends Phaser.Scene {
 
     //#endregion
 
+    //#region Music
+    if (this.sound.locked) {
+      this.sound.once(Phaser.Sound.Events.UNLOCKED, () => this.startMusic());
+    } else {
+      this.startMusic();
+    }
+
+    //#endregion
+
     //#region Player
 
     // Define head
@@ -167,7 +182,13 @@ export default class catchrScene extends Phaser.Scene {
     this.centerX = width / 2;
     this.centerY = height / 2;
 
-    this.blob = this.add.image(this.centerX, this.centerY, "catchrHead");
+    this.blob = this.add.image(this.centerX, this.centerY, "catchrPause");
+    this.blob.setInteractive();
+
+    this.blob.on("pointerdown", () => {
+      this.blob.setTexture("catchrHead");
+      this.startGame();
+    });
 
     // Define hand
     this.hands = this.physics.add.group({
@@ -209,7 +230,6 @@ export default class catchrScene extends Phaser.Scene {
     this.time.addEvent({
       delay: 1000,
       callback: () => {
-        console.log(this.health);
         if (this.health <= 100 - this.regen) this.updateHealthBar(this.regen);
       },
       callbackScope: this,
@@ -262,6 +282,11 @@ export default class catchrScene extends Phaser.Scene {
     this.healthBar.fillRect(10, 50 + (this.maxHpLength - healthLength), 5, healthLength);
   }
 
+  startMusic() {
+    const music = this.sound.add("levelMusic");
+    music.play({ loop: true });
+  }
+
   spawnHand() {
     const newHand = new Hand(this, ++this.handCount);
     this.hands.add(newHand);
@@ -284,7 +309,12 @@ export default class catchrScene extends Phaser.Scene {
     this.simulateMove();
   }
 
+  startGame() {
+    this.gameRunning = true;
+  }
+
   spawnHitCircle() {
+    if (!this.gameRunning) return;
     // Temporary random generation
     const dice = Phaser.Math.Between(0, 15);
     const angle = Phaser.Math.Between(0, 360);
@@ -361,6 +391,7 @@ export default class catchrScene extends Phaser.Scene {
       this.tweens.killAll();
       this.children.removeAll(true);
       this.physics.world.removeAllListeners();
+      this.sound.stopAll();
 
       this.add
         .text(this.centerX, this.centerY - 50, "You Lose", {
