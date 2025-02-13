@@ -4,7 +4,6 @@
 
 import { levelData, LevelJSON, PivotData, SliderLine } from "@/types/levelData";
 import HitCircle from "./HitCircle";
-import { createLocalRequestContext } from "next/dist/server/after/builtin-request-context";
 import Mine from "./Mine";
 import Reverse from "./Reverse";
 import Return from "./Return";
@@ -15,8 +14,6 @@ import Slider from "./Slider";
 
 export default class catchrScene extends Phaser.Scene {
   private blob!: Phaser.GameObjects.Image;
-  private hand!: Phaser.Physics.Arcade.Image;
-
   private hands!: Phaser.Physics.Arcade.Group;
 
   private levelData!: levelData;
@@ -29,13 +26,19 @@ export default class catchrScene extends Phaser.Scene {
 
   private scoreText: Phaser.GameObjects.Text;
   private comboText: Phaser.GameObjects.Text;
+  private healthBar: Phaser.GameObjects.Graphics;
 
   score: number = 0;
   combo: number = 1;
+  maxCombo: number = 1;
+  health: number = 100;
   isReversed: boolean = false;
   handCount: number = 1;
-  handDistance: number = 120;
   pendingSliders!: { line: SliderLine; current: number }[] = [];
+
+  handDistance: number = 120;
+  maxHpLength: number = 250;
+  regen: number = 5;
 
   constructor() {
     super("catchrScene");
@@ -177,6 +180,7 @@ export default class catchrScene extends Phaser.Scene {
     //#endregion
 
     //#region score/combo/health
+
     // Display Score
     const marginTop = 20;
 
@@ -196,9 +200,26 @@ export default class catchrScene extends Phaser.Scene {
         fontFamily: "Arial",
       })
       .setOrigin(0.5, 0);
+
+    // Display Health
+    this.healthBar = this.add.graphics();
+    this.updateHealthBar(0);
+
+    // Define regen event
+    this.time.addEvent({
+      delay: 1000,
+      callback: () => {
+        console.log(this.health);
+        if (this.health <= 100 - this.regen) this.updateHealthBar(this.regen);
+      },
+      callbackScope: this,
+      loop: true,
+    });
+
     //#endregion
 
     //#region hitCircles
+
     // Define hitCircles
     this.hitCircles = this.physics.add.group({
       classType: HitCircle,
@@ -214,6 +235,7 @@ export default class catchrScene extends Phaser.Scene {
     });
 
     this.physics.add.overlap(this.hands, this.hitCircles, this.handleHit, undefined, this);
+
     //#endregion
   }
 
@@ -224,7 +246,20 @@ export default class catchrScene extends Phaser.Scene {
 
   updateCombo(combo) {
     this.combo = combo;
+    this.maxCombo = this.maxCombo <= this.combo ? this.combo : this.maxCombo;
     this.comboText.setText(`x${this.combo}`);
+  }
+
+  updateHealthBar(val: number) {
+    if (!this.healthBar) return;
+
+    this.health = this.health > 0 ? this.health + val : 0;
+    this.healthBar.clear();
+
+    const healthLength = (this.health / 100) * this.maxHpLength;
+
+    this.healthBar.fillStyle(0xffffff, 1);
+    this.healthBar.fillRect(10, 50 + (this.maxHpLength - healthLength), 5, healthLength);
   }
 
   spawnHand() {
@@ -250,6 +285,7 @@ export default class catchrScene extends Phaser.Scene {
   }
 
   spawnHitCircle() {
+    // Temporary random generation
     const dice = Phaser.Math.Between(0, 15);
     const angle = Phaser.Math.Between(0, 360);
     const radius = Phaser.Math.Between(200, 400);
@@ -280,6 +316,7 @@ export default class catchrScene extends Phaser.Scene {
         break;
     }
 
+    // Actual code
     const SliderDots = this.pendingSliders
       .map((slider) => {
         slider.current++;
@@ -315,5 +352,31 @@ export default class catchrScene extends Phaser.Scene {
     this.hands.getChildren().forEach((hand: Hand) => {
       hand.move(pointer, this);
     });
+  }
+
+  update(time: number, delta: number): void {
+    if (this.health == 0) {
+      this.time.removeAllEvents();
+      this.input.removeAllListeners();
+      this.tweens.killAll();
+      this.children.removeAll(true);
+      this.physics.world.removeAllListeners();
+
+      this.add
+        .text(this.centerX, this.centerY - 50, "You Lose", {
+          fontSize: "48px",
+          color: "#ffffff",
+          fontFamily: "Arial",
+        })
+        .setOrigin(0.5, 0.5);
+
+      this.add
+        .text(this.centerX, this.centerY + 10, `Score: ${this.score}`, {
+          fontSize: "32px",
+          color: "#fffff0",
+          fontFamily: "Arial",
+        })
+        .setOrigin(0.5, 0.5);
+    }
   }
 }

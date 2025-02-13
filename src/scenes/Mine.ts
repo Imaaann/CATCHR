@@ -19,5 +19,6 @@ export default class Mine extends HitCircle {
     effect.play("mineEffect");
     this.destroy();
     scene.updateCombo(1);
+    scene.updateHealthBar(-15);
   }
 }

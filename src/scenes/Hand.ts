@@ -3,7 +3,6 @@ import catchrScene from "./catchr";
 export default class Hand extends Phaser.Physics.Arcade.Image {
   private angleOffset!: number;
   private center!: { x: number; y: number };
-  private handDistance!: number;
 
   constructor(scene: catchrScene, index: number) {
     const centerX = scene.scale.width / 2;
@@ -17,7 +16,6 @@ export default class Hand extends Phaser.Physics.Arcade.Image {
     super(scene, spawnX, spawnY, "catchrHand");
     this.angleOffset = angleOffset;
     this.center = { x: centerX, y: centerY };
-    this.handDistance = scene.handDistance;
     this.setRotation(angleOffset);
 
     scene.add.existing(this);

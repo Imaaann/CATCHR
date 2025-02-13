@@ -12,7 +12,10 @@ export default class HitCircle extends Phaser.Physics.Arcade.Image {
     type: string = "hitCircle",
     onComplete: onCompleteType = () => {
       this.destroy();
-      if (!this.isHit) scene.updateCombo(1);
+      if (!this.isHit) {
+        scene.updateCombo(1);
+        scene.updateHealthBar(-10);
+      }
     }
   ) {
     const centerX = scene.scale.width / 2;
