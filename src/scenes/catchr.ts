@@ -19,14 +19,14 @@ export default class catchrScene extends Phaser.Scene {
   private levelData!: levelData;
   private levelJSON!: LevelJSON;
 
-  private centerX!: number;
-  private centerY!: number;
-
   private hitCircles!: Phaser.Physics.Arcade.Group;
 
   private scoreText: Phaser.GameObjects.Text;
   private comboText: Phaser.GameObjects.Text;
   private healthBar: Phaser.GameObjects.Graphics;
+
+  centerX!: number;
+  centerY!: number;
 
   gameRunning: boolean = false;
   score: number = 0;
@@ -99,6 +99,12 @@ export default class catchrScene extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 64,
     });
+
+    this.load.audio("Hit", "/sfx/hit.wav");
+    this.load.audio("Explode", "/sfx/explosion.wav");
+    this.load.audio("Reverse", "/sfx/reverse.wav");
+    this.load.audio("Extra", "/sfx/extra.wav");
+    this.load.audio("Return", "/sfx/return.wav");
 
     if (this.levelData && this.levelData.audio_url) {
       this.load.audio("levelMusic", this.levelData.audio_url);
@@ -284,7 +290,7 @@ export default class catchrScene extends Phaser.Scene {
 
   startMusic() {
     const music = this.sound.add("levelMusic");
-    music.play({ loop: true });
+    music.play({ loop: false });
   }
 
   spawnHand() {
@@ -322,18 +328,18 @@ export default class catchrScene extends Phaser.Scene {
     let newCircle: HitCircle;
 
     switch (dice) {
-      // case 0:
-      //   newCircle = new Mine(this, radius, angle);
-      //   break;
-      // case 1:
-      //   newCircle = new Reverse(this, radius, angle);
-      //   break;
-      // case 2:
-      //   newCircle = new Return(this, radius, angle);
-      //   break;
-      // case 3:
-      //   newCircle = new Extra(this, radius, angle);
-      //   break;
+      case 0:
+        newCircle = new Mine(this, radius, angle);
+        break;
+      case 1:
+        newCircle = new Reverse(this, radius, angle);
+        break;
+      case 2:
+        newCircle = new Return(this, radius, angle);
+        break;
+      case 3:
+        newCircle = new Extra(this, radius, angle);
+        break;
       case 10:
         newCircle = new Slider(this, radius, angle, {
           radius: Phaser.Math.Between(200, 400),

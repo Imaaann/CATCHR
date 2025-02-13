@@ -17,6 +17,7 @@ export default class Mine extends HitCircle {
   handleHit(scene: catchrScene): void {
     const effect = scene.add.sprite(this.x, this.y, "mineHit");
     effect.play("mineEffect");
+    scene.sound.play("Explode", { volume: 0.2 });
     this.destroy();
     scene.updateCombo(1);
     scene.updateHealthBar(-15);

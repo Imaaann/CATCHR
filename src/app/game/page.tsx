@@ -1,5 +1,5 @@
 "use client";
-import type { levelData, LevelJSON } from "@/types/levelData";
+import type { levelData } from "@/types/levelData";
 import { supabaseClient } from "@/lib/supabaseClient";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -7,7 +7,7 @@ import LevelLoading from "@/components/LevelLoading";
 import NoLevel from "@/components/NoLevel";
 import NowPlaying from "@/components/NowPlaying";
 import dynamic from "next/dynamic";
-import { isValidLevelData, isValidLevelJSON } from "@/helpers/common";
+import { isValidLevelData } from "@/helpers/common";
 
 const Game = dynamic(() => import("@/components/Game"), { ssr: false });
 
@@ -15,7 +15,6 @@ function Home() {
   const searchParams = useSearchParams();
   const levelUuid = searchParams.get("uuid");
   const [levelData, setLevelData] = useState<levelData>();
-  const [levelJSON, setLevelJSON] = useState<LevelJSON>([]);
 
   const fetchedLevel = useRef(false);
 
@@ -49,28 +48,6 @@ function Home() {
     fetchLevel();
   }, [levelUuid]);
 
-  useEffect(() => {
-    if (!levelData?.level_file_url) return;
-
-    const fetchJSON = async () => {
-      try {
-        if (levelData == undefined) return;
-
-        const response = await fetch(
-          `/api/proxy?level=${encodeURIComponent(levelData.level_file_url)}`
-        );
-
-        const json = await response.json();
-        const validJSON: LevelJSON = isValidLevelJSON(json) ? json : [];
-        setLevelJSON(validJSON);
-      } catch (error) {
-        console.error("error fetching level.json: ", error);
-      }
-    };
-
-    fetchJSON();
-  }, [levelData]);
-
   if (!levelUuid)
     return (
       <div className="w-screen h-screen flex flex-col items-center justify-center">
@@ -91,7 +68,7 @@ function Home() {
         title={levelData.title}
         difficulty={levelData.difficulty}
       />
-      <Game levelData={levelData} levelJSON={levelJSON} />
+      <Game levelData={levelData} />
     </div>
   );
 }

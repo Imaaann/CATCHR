@@ -1,6 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HitCircle, levelData, LevelJSON, PivotData } from "@/types/levelData";
 
+export const fetchJSON = async (levelData: levelData) => {
+  try {
+    if (levelData == undefined) return;
+
+    const response = await fetch(
+      `/api/proxy?level=${encodeURIComponent(levelData.level_file_url)}`
+    );
+
+    const json = await response.json();
+    console.log("levelJSON before validation: ", json);
+    const validJSON: LevelJSON = isValidLevelJSON(json) ? json : [[], []];
+    return validJSON;
+  } catch (error) {
+    console.error("error fetching level.json: ", error);
+  }
+};
+
 export function isValidLevelData(data: any): data is levelData {
   return (
     typeof data.id === "string" &&
