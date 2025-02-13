@@ -7,7 +7,7 @@ export type levelData = {
   audio_url: string;
 };
 
-export type HitCircle = {
+export type HitCircleData = {
   type: "normal" | "slider" | "mine" | "reverse" | "extra-hand" | "remove-hand";
   radius: number;
   angle: number;
@@ -23,8 +23,8 @@ export type SliderLine = {
   speed: number;
 };
 
-export type SliderPivot = HitCircle & {
+export type SliderPivot = HitCircleData & {
   pivotData?: PivotData;
 };
 
-export type LevelJSON = HitCircle[][];
+export type LevelJSON = HitCircleData[][];

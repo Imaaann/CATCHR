@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { HitCircle, levelData, LevelJSON, PivotData } from "@/types/levelData";
+import { HitCircleData, levelData, LevelJSON, PivotData } from "@/types/levelData";
 
 export const fetchJSON = async (levelData: levelData) => {
   try {
@@ -52,7 +52,7 @@ export function isValidLevelJSON(data: any): data is LevelJSON {
   return true;
 }
 
-export function isValidHitCircle(data: any): data is HitCircle {
+export function isValidHitCircle(data: any): data is HitCircleData {
   const validTypes = ["normal", "slider", "mine", "reverse", "extra-hand", "remove-hand"];
 
   if (typeof data !== "object") {

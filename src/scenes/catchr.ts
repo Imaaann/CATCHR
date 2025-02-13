@@ -4,6 +4,7 @@
 
 import { levelData, LevelJSON, PivotData, SliderLine } from "@/types/levelData";
 import HitCircle from "./HitCircle";
+import type { HitCircleData, SliderPivot } from "@/types/levelData";
 import Mine from "./Mine";
 import Reverse from "./Reverse";
 import Return from "./Return";
@@ -28,7 +29,9 @@ export default class catchrScene extends Phaser.Scene {
   centerX!: number;
   centerY!: number;
 
+  currentFrame: number = 0;
   gameRunning: boolean = false;
+  isWinner: boolean = false;
   score: number = 0;
   combo: number = 1;
   maxCombo: number = 1;
@@ -321,38 +324,33 @@ export default class catchrScene extends Phaser.Scene {
 
   spawnHitCircle() {
     if (!this.gameRunning) return;
-    // Temporary random generation
-    const dice = Phaser.Math.Between(0, 15);
-    const angle = Phaser.Math.Between(0, 360);
-    const radius = Phaser.Math.Between(200, 400);
-    let newCircle: HitCircle;
 
-    switch (dice) {
-      case 0:
-        newCircle = new Mine(this, radius, angle);
-        break;
-      case 1:
-        newCircle = new Reverse(this, radius, angle);
-        break;
-      case 2:
-        newCircle = new Return(this, radius, angle);
-        break;
-      case 3:
-        newCircle = new Extra(this, radius, angle);
-        break;
-      case 10:
-        newCircle = new Slider(this, radius, angle, {
-          radius: Phaser.Math.Between(200, 400),
-          angle: Phaser.Math.Between(0, 360),
-          frames: 10,
-        });
-        break;
-      default:
-        newCircle = new HitCircle(this, radius, angle);
-        break;
+    if (this.currentFrame >= this.levelJSON.length) {
+      if (this.currentFrame == this.levelJSON.length + 10) this.isWinner = true;
+      else this.currentFrame++;
+      return;
     }
 
-    // Actual code
+    const newCircles = this.levelJSON[this.currentFrame].map(
+      (circle: HitCircleData | SliderPivot) => {
+        switch (circle.type) {
+          case "normal":
+            return new HitCircle(this, circle.radius, circle.angle, circle.speed);
+          case "mine":
+            return new Mine(this, circle.radius, circle.angle, circle.speed);
+          case "extra-hand":
+            return new Extra(this, circle.radius, circle.angle, circle.speed);
+          case "remove-hand":
+            return new Return(this, circle.radius, circle.angle, circle.speed);
+          case "reverse":
+            return new Reverse(this, circle.radius, circle.angle, circle.speed);
+          case "slider":
+            return new Slider(this, circle.radius, circle.angle, circle.pivotData, circle.speed);
+        }
+      }
+    );
+    this.currentFrame++;
+
     const SliderDots = this.pendingSliders
       .map((slider) => {
         slider.current++;
@@ -363,7 +361,7 @@ export default class catchrScene extends Phaser.Scene {
       .filter((dot) => dot !== undefined);
     this.pendingSliders = this.pendingSliders.filter((slider) => slider.line.time > slider.current);
 
-    this.hitCircles.add(newCircle);
+    this.hitCircles.addMultiple(newCircles);
     this.hitCircles.addMultiple(SliderDots);
   }
 
@@ -391,7 +389,7 @@ export default class catchrScene extends Phaser.Scene {
   }
 
   update(time: number, delta: number): void {
-    if (this.health == 0) {
+    if (this.health == 0 || this.isWinner) {
       this.time.removeAllEvents();
       this.input.removeAllListeners();
       this.tweens.killAll();
@@ -400,7 +398,7 @@ export default class catchrScene extends Phaser.Scene {
       this.sound.stopAll();
 
       this.add
-        .text(this.centerX, this.centerY - 50, "You Lose", {
+        .text(this.centerX, this.centerY - 50, `You ${this.isWinner ? "Win" : "Lose"}`, {
           fontSize: "48px",
           color: "#ffffff",
           fontFamily: "Arial",
