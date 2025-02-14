@@ -32,6 +32,7 @@ export default class catchrScene extends Phaser.Scene {
   currentFrame: number = 0;
   gameRunning: boolean = false;
   isWinner: boolean = false;
+  isHighScore: boolean = false;
   score: number = 0;
   combo: number = 1;
   maxCombo: number = 1;
@@ -277,6 +278,7 @@ export default class catchrScene extends Phaser.Scene {
   updateLocalScore() {
     if (this.score > parseInt(localStorage.getItem(this.levelData.id) || "0")) {
       localStorage.setItem(this.levelData.id, this.score);
+      this.isHighScore = true;
     }
   }
 
@@ -423,6 +425,16 @@ export default class catchrScene extends Phaser.Scene {
           fontFamily: "Arial",
         })
         .setOrigin(0.5, 0.5);
+
+      if (this.isHighScore) {
+        this.add
+          .text(this.centerX, this.centerY + 20, "High Score!", {
+            fontSize: "28px",
+            color: "#adebb3",
+            fontFamily: "Arial",
+          })
+          .setOrigin(0.5, 0.5);
+      }
     }
   }
 }
