@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Key } from "react";
-import LevelCard, { levelData } from "../LevelCard";
+import LevelCard from "../LevelCard";
 import TitleTriangle from "../svg/TitleTriangle";
 import DesktopComponent from "./DesktopComponent";
+import { levelData } from "@/types/levelData";
 
 function LevelSelectTriangle() {
   return (
