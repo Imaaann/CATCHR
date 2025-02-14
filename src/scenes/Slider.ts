@@ -35,7 +35,7 @@ export default class Slider extends HitCircle {
   handleHit(scene: catchrScene): void {
     const effect = scene.add.sprite(this.x, this.y, "sliderHit");
     effect.play("sliderEffect");
-    scene.sound.play("Hit", { volume: 0.2 });
+    scene.sound.play("Hit", { volume: 0.05 });
     super.setHit(true);
     this.destroy();
   }

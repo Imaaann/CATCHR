@@ -50,7 +50,7 @@ export default class HitCircle extends Phaser.Physics.Arcade.Image {
   handleHit(scene: catchrScene) {
     const effect = scene.add.sprite(this.x, this.y, "hitCircleHit");
     effect.play("hitCircleEffect");
-    scene.sound.play("Hit", { volume: 0.2 });
+    scene.sound.play("Hit", { volume: 0.05 });
     this.destroy();
     this.isHit = true;
     scene.updateScore(scene.score + 100 * scene.combo);

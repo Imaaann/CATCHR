@@ -1,0 +1,412 @@
+[
+  [{ "type": "normal", "radius": 300, "angle": 0 }],
+  [],
+
+  [],
+  [],
+
+  [{ "type": "normal", "radius": 400, "angle": 90 }],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [{ "type": "normal", "radius": 300, "angle": 180 }],
+  [],
+
+  [{ "type": "normal", "radius": 300, "angle": 270, "speed": 60 }],
+  [{ "type": "normal", "radius": 300, "angle": 300, "speed": 60 }],
+
+  [{ "type": "normal", "radius": 300, "angle": 330, "speed": 60 }],
+  [],
+
+  [
+    {
+      "type": "slider",
+      "radius": 400,
+      "angle": 320,
+      "pivotData": { "radius": 200, "angle": 45, "frames": 14 }
+    }
+  ],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [{ "type": "normal", "radius": 200, "angle": 45 }],
+
+  [],
+  [],
+
+  [],
+  [{ "type": "normal", "radius": 400, "angle": 270 }],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [
+    {
+      "type": "slider",
+      "radius": 300,
+      "angle": 180,
+      "pivotData": {
+        "radius": 300,
+        "angle": 180,
+        "frames": 14
+      }
+    }
+  ],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [{ "type": "normal", "radius": 400, "angle": 45 }],
+
+  [{ "type": "normal", "radius": 400, "angle": 90 }],
+  [
+    {
+      "type": "slider",
+      "radius": 400,
+      "angle": 90,
+      "pivotData": {
+        "radius": 400,
+        "angle": 90,
+        "frames": 3
+      }
+    }
+  ],
+
+  [],
+  [],
+
+  [],
+  [
+    {
+      "type": "slider",
+      "radius": 350,
+      "angle": 180,
+      "pivotData": {
+        "radius": 400,
+        "angle": 0,
+        "frames": 3
+      }
+    }
+  ],
+
+  [],
+  [],
+
+  [],
+  [
+    {
+      "type": "slider",
+      "radius": 350,
+      "angle": 0,
+      "pivotData": {
+        "radius": 450,
+        "angle": 360,
+        "frames": 11
+      }
+    }
+  ],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [
+    {
+      "type": "slider",
+      "radius": 460,
+      "angle": 360,
+      "pivotData": {
+        "radius": 450,
+        "angle": 0,
+        "frames": 11
+      }
+    }
+  ],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [
+    {
+      "type": "slider",
+      "radius": 350,
+      "angle": 0,
+      "pivotData": {
+        "radius": 350,
+        "angle": 100,
+        "frames": 6
+      }
+    }
+  ],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [{ "type": "extra-hand", "radius": 350, "angle": 110 }],
+
+  [
+    {
+      "type": "slider",
+      "radius": 300,
+      "angle": 0,
+      "pivotData": {
+        "radius": 300,
+        "angle": 0,
+        "frames": 6
+      }
+    },
+    {
+      "type": "slider",
+      "radius": 300,
+      "angle": 180,
+      "pivotData": {
+        "radius": 300,
+        "angle": 180,
+        "frames": 6
+      }
+    }
+  ],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [
+    { "type": "normal", "radius": 300, "angle": 0 },
+    { "type": "normal", "radius": 300, "angle": 180 }
+  ],
+  [
+    { "type": "normal", "radius": 350, "angle": 60 },
+    { "type": "normal", "radius": 350, "angle": 240 }
+  ],
+
+  [
+    { "type": "normal", "radius": 400, "angle": 120 },
+    { "type": "normal", "radius": 400, "angle": 300 }
+  ],
+  [],
+
+  [
+    { "type": "normal", "radius": 450, "angle": 180 },
+    { "type": "normal", "radius": 450, "angle": 360 }
+  ],
+  [],
+
+  [],
+  [
+    { "type": "normal", "radius": 500, "angle": 240 },
+    { "type": "normal", "radius": 500, "angle": 60 }
+  ],
+
+  [
+    { "type": "normal", "radius": 550, "angle": 300 },
+    { "type": "normal", "radius": 550, "angle": 120 }
+  ],
+  [],
+
+  [
+    {
+      "type": "slider",
+      "radius": 400,
+      "angle": 90,
+      "pivotData": {
+        "radius": 500,
+        "angle": 120,
+        "frames": 12
+      }
+    }
+  ],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [
+    {
+      "type": "slider",
+      "radius": 550,
+      "angle": 80,
+      "pivotData": {
+        "radius": 300,
+        "angle": 20,
+        "frames": 5
+      }
+    }
+  ],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [{ "type": "remove-hand", "radius": 300, "angle": 0 }],
+
+  [
+    {
+      "type": "slider",
+      "radius": 350,
+      "angle": 0,
+      "pivotData": {
+        "radius": 450,
+        "angle": 90,
+        "frames": 4
+      }
+    }
+  ],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [{ "type": "normal", "radius": 300, "angle": 0 }],
+  [],
+
+  [{ "type": "normal", "radius": 320, "angle": 20 }],
+  [],
+
+  [{ "type": "normal", "radius": 340, "angle": 40 }],
+  [],
+
+  [{ "type": "normal", "radius": 360, "angle": 60 }],
+  [
+    {
+      "type": "slider",
+      "radius": 350,
+      "angle": 0,
+      "pivotData": {
+        "radius": 450,
+        "angle": 0,
+        "frames": 9
+      }
+    }
+  ],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [],
+  [],
+
+  [{ "type": "normal", "radius": 350, "angle": 180 }],
+  []
+]

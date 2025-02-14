@@ -25,7 +25,8 @@ export function isValidLevelData(data: any): data is levelData {
     typeof data.image_url === "string" &&
     typeof data.level_file_url === "string" &&
     typeof data.difficulty === "string" &&
-    typeof data.audio_url === "string"
+    typeof data.audio_url === "string" &&
+    typeof data.frame_diffrence === "number"
   );
 }
 

@@ -5,6 +5,7 @@ export type levelData = {
   level_file_url: string;
   difficulty: string;
   audio_url: string;
+  frame_diffrence: number;
 };
 
 export type HitCircleData = {

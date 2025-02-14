@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import PhaserLoading from "./PhaserLoading";
-import { levelData } from "@/types/levelData";
+import { levelData, LevelJSON } from "@/types/levelData";
 import { fetchJSON } from "@/helpers/common";
 
 function Game({ levelData }: { levelData: levelData }) {
@@ -13,8 +13,7 @@ function Game({ levelData }: { levelData: levelData }) {
     async function initPhaser() {
       const Phaser = await import("phaser");
       const { default: catchrScene } = await import("../scenes/catchr");
-
-      const levelJSON = await fetchJSON(levelData);
+      const levelJSON: LevelJSON | undefined = await fetchJSON(levelData);
 
       const phaserGame = new Phaser.Game({
         type: Phaser.AUTO,
@@ -27,7 +26,7 @@ function Game({ levelData }: { levelData: levelData }) {
         physics: {
           default: "arcade",
           arcade: {
-            debug: true,
+            debug: false,
             gravity: { y: 0, x: 0 },
           },
         },
@@ -35,7 +34,6 @@ function Game({ levelData }: { levelData: levelData }) {
 
       setGame(phaserGame);
 
-      console.log("levelJson before phaser: ", levelJSON);
       phaserGame.scene.start("catchrScene", { levelData, levelJSON });
     }
 

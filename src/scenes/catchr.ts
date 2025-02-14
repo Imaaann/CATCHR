@@ -40,9 +40,10 @@ export default class catchrScene extends Phaser.Scene {
   handCount: number = 1;
   pendingSliders!: { line: SliderLine; current: number }[] = [];
 
+  // constants
   handDistance: number = 120;
   maxHpLength: number = 250;
-  regen: number = 5;
+  regen: number = 50;
 
   constructor() {
     super("catchrScene");
@@ -257,7 +258,7 @@ export default class catchrScene extends Phaser.Scene {
 
     // Define spawn event and collision event
     this.time.addEvent({
-      delay: 500,
+      delay: this.levelData.frame_diffrence || 500,
       callback: this.spawnHitCircle,
       callbackScope: this,
       loop: true,

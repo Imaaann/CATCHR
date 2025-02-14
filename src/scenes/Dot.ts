@@ -15,7 +15,7 @@ export default class Dot extends HitCircle {
   handleHit(scene: catchrScene): void {
     const effect = scene.add.sprite(this.x, this.y, "dotHit");
     effect.play("dotEffect");
-    scene.sound.play("Hit", { volume: 0.1 });
+    scene.sound.play("Hit", { volume: 0.025 });
     this.destroy();
     super.setHit(true);
   }
