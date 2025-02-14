@@ -17,7 +17,7 @@ function LevelCard({ level }: { level: levelData }) {
       <div className="flex justify-between items-center mb-3">
         <div className="flex flex-col gap-2">
           <span>High</span>
-          <span>0000000</span>
+          <span>{localStorage.getItem(level.id) || "0000000"}</span>
         </div>
         <Link href={`/game?uuid=${encodeURIComponent(level.id)}`}>
           <DifficultyCard text={level.difficulty} />

@@ -19,5 +19,8 @@ export default class Reverse extends HitCircle {
     super.setHit(true);
     this.destroy();
     scene.isReversed = true;
+
+    scene.updateScore(scene.score + 200 * scene.combo);
+    scene.updateCombo(scene.combo + 1);
   }
 }

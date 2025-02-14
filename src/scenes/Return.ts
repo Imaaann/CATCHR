@@ -20,5 +20,8 @@ export default class Return extends HitCircle {
     this.destroy();
     scene.isReversed = false;
     scene.clearHands();
+
+    scene.updateScore(scene.score + 200 * scene.combo);
+    scene.updateCombo(scene.combo + 1);
   }
 }

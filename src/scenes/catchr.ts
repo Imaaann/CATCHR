@@ -274,6 +274,12 @@ export default class catchrScene extends Phaser.Scene {
     this.scoreText.setText(`${this.score}`);
   }
 
+  updateLocalScore() {
+    if (this.score > parseInt(localStorage.getItem(this.levelData.id) || "0")) {
+      localStorage.setItem(this.levelData.id, this.score);
+    }
+  }
+
   updateCombo(combo) {
     this.combo = combo;
     this.maxCombo = this.maxCombo <= this.combo ? this.combo : this.maxCombo;
@@ -397,6 +403,10 @@ export default class catchrScene extends Phaser.Scene {
       this.children.removeAll(true);
       this.physics.world.removeAllListeners();
       this.sound.stopAll();
+
+      if (this.isWinner) {
+        this.updateLocalScore();
+      }
 
       this.add
         .text(this.centerX, this.centerY - 50, `You ${this.isWinner ? "Win" : "Lose"}`, {

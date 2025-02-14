@@ -42,12 +42,13 @@ function DesktopAbout() {
       </div>
       <div className="-mt-16 py-3">
         <span className="text-5xl text-white font-normal font-hoover">Hit Circles</span>
-        <div className="flex flex-wrap gap-2 mt-4 font-hoover text-white">
+        <div className="flex flex-wrap gap-2 mt-4 font-hoover text-white mb-3">
           <BeatCard type={beatTypes.normal} />
           <BeatCard type={beatTypes.slider} />
           <BeatCard type={beatTypes.mine} />
           <BeatCard type={beatTypes.reverse} />
           <BeatCard type={beatTypes.double} />
+          <BeatCard type={beatTypes.return} />
         </div>
       </div>
     </div>

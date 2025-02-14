@@ -38,6 +38,9 @@ export default class Slider extends HitCircle {
     scene.sound.play("Hit", { volume: 0.05 });
     super.setHit(true);
     this.destroy();
+
+    scene.updateScore(scene.score + 100 * scene.combo);
+    scene.updateCombo(scene.combo + 1);
   }
 
   static spawnDot(scene: catchrScene, line: SliderLine, time: number) {

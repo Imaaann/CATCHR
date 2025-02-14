@@ -18,5 +18,8 @@ export default class Dot extends HitCircle {
     scene.sound.play("Hit", { volume: 0.025 });
     this.destroy();
     super.setHit(true);
+
+    scene.updateScore(scene.score + 50 * scene.combo);
+    scene.updateCombo(scene.combo + 1);
   }
 }
