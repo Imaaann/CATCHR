@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Key } from "react";
-import LevelCard, { levelData } from "../LevelCard";
+import LevelCard from "../LevelCard";
 import MobileComponent from "./MobileComponent";
 import MobileHeader from "./MobileHeader";
+import { levelData } from "@/types/levelData";
 
 function MobileLevelSelection({ levels }: { levels: levelData[] }) {
   return (
