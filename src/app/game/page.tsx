@@ -40,6 +40,7 @@ function Home() {
               level_file_url: "NONE",
               difficulty: "NONE",
               audio_url: "NONE",
+              frame_diffrence: 500,
             };
         setLevelData(validLevel);
       }
