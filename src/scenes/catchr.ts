@@ -112,7 +112,11 @@ export default class catchrScene extends Phaser.Scene {
     this.load.audio("Return", "/sfx/return.wav");
 
     if (this.levelData && this.levelData.audio_url) {
-      this.load.audio("levelMusic", [this.levelData.audio_url]);
+      this.load.audio({
+        key: "levelMusic",
+        url: "https://res.cloudinary.com/dhz55ykwj/video/upload/v1738916228/Wonder_Egg_Priority_OP_Opening_MP3_160K_ha9run.mp3",
+        type: "audio",
+      });
     }
   }
 
