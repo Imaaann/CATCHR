@@ -112,8 +112,7 @@ export default class catchrScene extends Phaser.Scene {
     this.load.audio("Return", "/sfx/return.wav");
 
     if (this.levelData && this.levelData.audio_url) {
-      const audioUrl = `${this.levelData.audio_url}?nocache=${Date.now()}`;
-      this.load.audio("levelMusic", audioUrl);
+      this.load.audio("levelMusic", this.levelData.audio_url);
     }
   }
 
