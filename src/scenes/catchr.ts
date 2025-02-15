@@ -61,7 +61,7 @@ export default class catchrScene extends Phaser.Scene {
     this.load.image("catchrHead", "/sprites/blob.png");
     this.load.image("catchrPause", "/sprites/paused.png");
     this.load.image("catchrHand", "/sprites/hand.png");
-    this.load.image("hitCircle", "/sprites/hitCircle.png");
+    this.load.image("hitCircle", "/sprites/HitCircle.png");
     this.load.image("Slider", "/sprites/Slider.png");
     this.load.image("Dot", "/sprites/Slider-dot.png");
     this.load.image("Mine", "/sprites/Mine.png");
