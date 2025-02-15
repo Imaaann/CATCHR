@@ -15,7 +15,7 @@ function MobileHero() {
           GO
         </button>
       </Link>
-      <div className="absolute rotate-[-35deg] bottom-[-1] right-6 overflow-hidden">
+      <div className="absolute rotate-[-35deg] bottom-0 right-6 overflow-hidden">
         <CATCHRio size={150} />
       </div>
     </div>

@@ -428,7 +428,7 @@ export default class catchrScene extends Phaser.Scene {
 
       if (this.isHighScore) {
         this.add
-          .text(this.centerX, this.centerY + 20, "High Score!", {
+          .text(this.centerX, this.centerY + 40, "High Score!", {
             fontSize: "28px",
             color: "#adebb3",
             fontFamily: "Arial",
