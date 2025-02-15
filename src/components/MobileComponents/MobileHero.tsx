@@ -10,7 +10,7 @@ function MobileHero() {
         <br />
         the Flow!
       </p>
-      <Link href="/levels">
+      <Link href="/Levels">
         <button className="bg-white bg-opacity-5 hover:bg-opacity-10 shadow-white-Glow px-6 border-solid border-white border-opacity-10  rounded-md border text-3xl mt-3">
           GO
         </button>
