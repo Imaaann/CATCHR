@@ -95,12 +95,12 @@ export default class catchrScene extends Phaser.Scene {
       frameHeight: 64,
     });
 
-    this.load.spritesheet("sliderHit", "/sprites/Slider-Hit.png", {
+    this.load.spritesheet("sliderHit", "/sprites/Slider-hit.png", {
       frameWidth: 64,
       frameHeight: 64,
     });
 
-    this.load.spritesheet("dotHit", "/sprites/Slider-dot-Hit.png", {
+    this.load.spritesheet("dotHit", "/sprites/Slider-dot-hit.png", {
       frameWidth: 64,
       frameHeight: 64,
     });
