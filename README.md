@@ -11,7 +11,7 @@ all the beats from normal hit-circles, sliders, and avoiding mines. CATCHR also 
 
 ### How to run CATCHR
 
-You can play CATCHR live by clicking this [link](https://www.example.com)
+You can play CATCHR live by clicking this [link](https://catchr-iman-tau.vercel.app/)
 Or you can host it locally by cloning this repository and running `yarn dev` or `npm run dev`
 
 ### Contribute to CATCHR
